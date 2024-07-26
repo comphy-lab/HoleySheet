@@ -140,12 +140,15 @@ def process_timestep(ti, folder, rmin, rmax, zmin, zmax, lw, asy, Oh, nr, Ldomai
     print(f"max vel is {velmax} and min vel is {velmin}")
     
     
-    cntrl1 = ax.imshow(vel, cmap="Blues", interpolation='Bilinear', origin='lower', extent=[rmin, -rmax, zmin, zmax], vmax=velmax, vmin=velmin)
-    cntrl2 = ax.imshow(D2, cmap="hot_r", interpolation='Bilinear', origin='lower', extent=[rmin, rmax, zmin, zmax], vmax=d2max, vmin=d2min)
-    
-    if not asy:    
-        rmin, rmax, zmin, zmax = 0, Ldomain, 0, Ldomain/2
+    if asy:
+        cntrl1 = ax.imshow(vel, cmap="Blues", interpolation='Bilinear', origin='lower', extent=[rmin, -rmax, zmin, zmax], vmax=velmax, vmin=velmin)
         cntrl2 = ax.imshow(D2, cmap="hot_r", interpolation='Bilinear', origin='lower', extent=[rmin, rmax, zmin, zmax], vmax=d2max, vmin=d2min)
+    
+    else:   
+        rmin, rmax, zmin, zmax = 0, Ldomain, 0, Ldomain/2
+        cntrl1 = ax.imshow(vel, cmap="Blues", interpolation='Bilinear', origin='lower', extent=[rmin, -rmax, zmin, zmax], vmax=velmax, vmin=velmin)
+        cntrl2 = ax.imshow(D2, cmap="hot_r", interpolation='Bilinear', origin='lower', extent=[rmin, rmax, zmin, zmax], vmax=d2max, vmin=d2min)
+        cntrl1 = ax.imshow(vel, cmap="Blues", interpolation='Bilinear', origin='lower', extent=[rmin, -rmax, zmin, -zmax], vmax=velmax, vmin=velmin)
         cntrl2 = ax.imshow(D2, cmap="hot_r", interpolation='Bilinear', origin='lower', extent=[rmin, rmax, zmin, -zmax], vmax=d2max, vmin=d2min)
 
     l, b, w, h = ax.get_position().bounds

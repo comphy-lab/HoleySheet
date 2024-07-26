@@ -195,7 +195,7 @@ def main():
     process_func = partial(process_timestep, folder=folder, rmin=rmin, rmax=rmax, zmin=zmin, zmax=zmax, lw=lw, asy=args.asy, Oh=args.Oh, nr=nr, Ldomain=Ldomain)
     
     # Use all available CPU cores
-    num_processes = 8 #mp.cpu_count()
+    num_processes = 16 #mp.cpu_count()
     
     # Create a pool of worker processes
     with mp.Pool(processes=num_processes) as pool:

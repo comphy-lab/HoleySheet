@@ -10,10 +10,11 @@ import multiprocessing as mp
 from functools import partial
 from pathlib import Path
 import argparse
+from matplotlib.ticker import StrMethodFormatter
 
 matplotlib.rcParams['font.family'] = 'serif'
 matplotlib.rcParams['text.usetex'] = True
-# matplotlib.rcParams['text.latex.preamble'] = [r'']
+matplotlib.rcParams['text.latex.preamble'] = r'\usepackage{amsmath}'
 
 def gettingFacets(filename, asy):
     exe = ["./getFacet", filename]
@@ -47,53 +48,47 @@ def gettingFacets(filename, asy):
                     segments.extend(segment_variants)
     return segments
 
-# def gettingfield(filename, zmin, zmax, rmax, nr, Ohs, Ohp, Oha):
-#     exe = ["./getData", filename, str(zmin), str(0), str(zmax), str(rmax), str(nr), str(Ohs), str(Ohp), str(Oha)]
-#     p = sp.Popen(exe, stdout=sp.PIPE, stderr=sp.PIPE)
-#     stdout, stderr = p.communicate()
-#     temp1 = stderr.decode("utf-8")
-#     temp2 = temp1.split("\n")
-#     # print(temp2) #debugging
-#     Rtemp, Ztemp, D2temp, veltemp, Utemp, Vtemp, taupTemp = [],[],[],[],[],[],[]
+def gettingfield(filename, zmin, rmin, zmax, rmax, nr, Oh):
+    exe = ["./getData", filename, str(zmin), str(rmin), str(zmax), str(rmax), str(nr), str(Oh)]
+    p = sp.Popen(exe, stdout=sp.PIPE, stderr=sp.PIPE)
+    stdout, stderr = p.communicate()
+    lines = stderr.decode("utf-8").split("\n")
+    Rtemp, Ztemp, D2temp, veltemp, Utemp, Vtemp = [],[],[],[],[],[]
 
-#     for n1 in range(len(temp2)):
-#         temp3 = temp2[n1].split(" ")
-#         if temp3 == ['']:
-#             pass
-#         else:
-#             Ztemp.append(float(temp3[0]))
-#             Rtemp.append(float(temp3[1]))
-#             D2temp.append(float(temp3[2]))
-#             veltemp.append(float(temp3[3]))
-#             Utemp.append(float(temp3[4]))
-#             Vtemp.append(float(temp3[5]))
-#             taupTemp.append(float(temp3[6]))
+    for i in range(len(lines)):
+        values = lines[i].split(" ")
+        if values == ['']:
+            pass
+        else:
+            Ztemp.append(float(values[0]))
+            Rtemp.append(float(values[1]))
+            D2temp.append(float(values[2]))
+            veltemp.append(float(values[3]))
+            Utemp.append(float(values[4]))
+            Vtemp.append(float(values[5]))
 
-#     R = np.asarray(Rtemp)
-#     Z = np.asarray(Ztemp)
-#     D2 = np.asarray(D2temp)
-#     vel = np.asarray(veltemp)
-#     U = np.asarray(Utemp)
-#     V = np.asarray(Vtemp)
-#     taup = np.asarray(taupTemp)
-#     nz = int(len(Z)/nr)
+    R = np.asarray(Rtemp)
+    Z = np.asarray(Ztemp)
+    D2 = np.asarray(D2temp)
+    vel = np.asarray(veltemp)
+    U = np.asarray(Utemp)
+    V = np.asarray(Vtemp)
+    nz = int(len(Z)/nr)
 
-#     # print("nr is %d %d" % (nr, len(R))) # debugging
-#     print("nz is %d" % nz)
+    
+    # print(f"nz is {nz}")
 
-#     R.resize((nz, nr))
-#     Z.resize((nz, nr))
-#     D2.resize((nz, nr))
-#     vel.resize((nz, nr))
-#     U.resize((nz, nr))
-#     V.resize((nz, nr))
-#     taup.resize((nz, nr))
+    R.resize((nz, nr))
+    Z.resize((nz, nr))
+    D2.resize((nz, nr))
+    vel.resize((nz, nr))
+    U.resize((nz, nr))
+    V.resize((nz, nr))
 
-#     return R, Z, D2, vel, U, V, taup, nz
-# ----------------------------------------------------------------------------------------------------------------------
+    return R, Z, D2, vel, U, V, nz
 
 
-def process_timestep(ti, folder, nGFS, Ldomain, GridsPerR, rmin, rmax, zmin, zmax, lw, asy):
+def process_timestep(ti, folder, rmin, rmax, zmin, zmax, lw, asy, Oh, nr):    
     """Process a single timestep."""
     t = 0.1*ti
     snapshot_file = Path(f"intermediate/snapshot-{t:.4f}")
@@ -112,8 +107,8 @@ def process_timestep(ti, folder, nGFS, Ldomain, GridsPerR, rmin, rmax, zmin, zma
     if not segs:
         print(f"Problem in the available file {snapshot_file}")
         return
-
-    # R, Z, taus, vel, U, V, taup, nz = gettingfield(place, zmin, zmax, rmax, nr, Ohs, Ohp, Oha)
+    
+    R, Z, D2, vel, U, V, nz = gettingfield(snapshot_file, zmin, rmin, zmax, rmax, nr, Oh)
     # Part to plot
     AxesLabel, TickLabel = [50, 35]
     fig, ax = plt.subplots()
@@ -121,23 +116,41 @@ def process_timestep(ti, folder, nGFS, Ldomain, GridsPerR, rmin, rmax, zmin, zma
 
     ax.plot([0, 0], [zmin, zmax],'-.',color='grey',linewidth=lw)
 
-    ax.plot([rmin, rmin], [zmin, zmax],'-',color='black',linewidth=lw)
-    ax.plot([rmin, rmax], [zmin, zmin],'-',color='black',linewidth=lw)
-    ax.plot([rmin, rmax], [zmax, zmax],'-',color='black',linewidth=lw)
+    ax.plot([-rmax, -rmax], [zmin, zmax],'-',color='black',linewidth=lw)
+    ax.plot([-rmax, rmax], [zmin, zmin],'-',color='black',linewidth=lw)
+    ax.plot([-rmax, rmax], [zmax, zmax],'-',color='black',linewidth=lw)
     ax.plot([rmax, rmax], [zmin, zmax],'-',color='black',linewidth=lw)
 
     ## Drawing Facets
     line_segments = LineCollection(segs, linewidths=3.25, colors='green', linestyle='solid')
     ax.add_collection(line_segments)
-    ax.set_title('$t/\\tau_\gamma$ = %4.3f' % t, fontsize=TickLabel)
-    #plt.scatter(segs[0], segs[1])
-    #print("The line collection array: ",segs)
+    ax.set_title(f'$t/\\tau_\gamma$ = {t:.3f}', fontsize=TickLabel)
 
     ## Copied Lines
     ax.set_aspect('equal')
-    ax.set_xlim(rmin, rmax)
+    ax.set_xlim(-rmax, rmax)
     ax.set_ylim(zmin, zmax)
 
+    velmax, velmin = np.max(vel), np.min(vel)
+    d2max, d2min = np.max(D2), np.min(D2)
+    print(f"max D2 is {d2max} and min D2 is {d2min}")
+    cntrl1 = ax.imshow(vel, cmap="Blues", interpolation='Bilinear', origin='lower', extent=[rmin, -rmax, zmin, zmax], vmax=velmax, vmin=velmin)
+    cntrl2 = ax.imshow(D2, cmap="hot_r", interpolation='Bilinear', origin='lower', extent=[rmin, rmax, zmin, zmax], vmax=d2max, vmin=d2min)
+
+    l, b, w, h = ax.get_position().bounds
+    cb1 = fig.add_axes([l+0.05*w, b-0.05, 0.40*w, 0.03])
+    c1 = plt.colorbar(cntrl1,cax=cb1,orientation='horizontal')
+    c1.set_label(r'$\|\mathbf{v}\|/\sqrt{\gamma/\rho R_0}$',fontsize=TickLabel, labelpad=-25)
+    c1.ax.tick_params(labelsize=TickLabel)
+    c1.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.1f}'))
+    c1.set_ticks([velmax, velmin])
+    cb2 = fig.add_axes([l+0.55*w, b-0.05, 0.40*w, 0.03])
+    c2 = plt.colorbar(cntrl2,cax=cb2,orientation='horizontal')
+    c2.ax.tick_params(labelsize=TickLabel)
+    c2.set_label(r"$\log_{10}\left(2 Oh \left( \boldsymbol{\mathcal {D} : \mathcal {D}} \right) \right)$",fontsize=TickLabel, labelpad=-25)
+    c2.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.1f}')) 
+    c2.set_ticks([d2max, d2min])
+    
     ax.axis('off')
     # plt.show()
     plt.savefig(output_file, bbox_inches="tight", dpi=250)
@@ -146,8 +159,8 @@ def process_timestep(ti, folder, nGFS, Ldomain, GridsPerR, rmin, rmax, zmin, zma
 
 def main():
     parser = argparse.ArgumentParser(description="Process facets for bubbles in sheets.")
-    parser.add_argument('--asy', action='store_true', 
-                        help="If set, use asymmetric variants. Default is false.")
+    parser.add_argument('--asy', action='store_true', help="If set, use asymmetric variants. Default is false.")
+    parser.add_argument('--Oh', type=float, default=0.01, help="Oh value.")
     args = parser.parse_args()
     
     nGFS = 100
@@ -155,7 +168,7 @@ def main():
     GridsPerR = 64
     nr = int(GridsPerR*Ldomain)
 
-    rmin, rmax, zmin, zmax = -Ldomain, Ldomain, -Ldomain/2, Ldomain/2
+    rmin, rmax, zmin, zmax = 0, Ldomain, -Ldomain/2, Ldomain/2
     lw = 2
 
     folder = Path('Video')  # output folder
@@ -164,8 +177,9 @@ def main():
         os.makedirs(folder)
     
     # Prepare the partial function with fixed arguments
-    process_func = partial(process_timestep, folder=folder, nGFS=nGFS, Ldomain=Ldomain, GridsPerR=GridsPerR, rmin=rmin, rmax=rmax, zmin=zmin, zmax=zmax, lw=lw, asy=args.asy)
-
+    # process_func = partial(process_timestep, folder=folder, rmin=rmin, rmax=rmax, zmin=zmin, zmax=zmax, lw=lw, asy=args.asy, nr=nr)
+    process_func = partial(process_timestep, folder=folder, rmin=rmin, rmax=rmax, zmin=zmin, zmax=zmax, lw=lw, asy=args.asy, Oh=args.Oh, nr=nr)
+    
     # Use all available CPU cores
     num_processes = 8 #mp.cpu_count()
     

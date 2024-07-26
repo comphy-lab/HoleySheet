@@ -1,8 +1,4 @@
-/* Title: Getting Facets
-# Author: Vatsal Sanjay
-# vatsalsanjay@gmail.com
-# Physics of Fluids
-*/
+// get facets
 #include "navier-stokes/centered.h"
 #include "fractions.h"
 

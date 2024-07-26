@@ -174,7 +174,7 @@ def main():
     parser.add_argument('--Oh', type=float, default=0.01, help="Oh value.")
     args = parser.parse_args()
     
-    nGFS = 100
+    nGFS = 10000
     Ldomain = 4
     GridsPerR = 64
     nr = int(GridsPerR*Ldomain)

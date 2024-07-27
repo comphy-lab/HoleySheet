@@ -28,13 +28,13 @@ for (( i=start; i<=end; i++ )); do
     
     cd $dir || { echo "Failed to change directory to $dir"; exit 1; }
     
-    srun -n 16 --gres=cpu:16 --exclusive bubbleinSheets_01 $MAXlevel ${Oh[index]} $Bo $tmax &
+    srun -n 16 --gres=cpu:16 --exclusive bubbleinSheet_01 $MAXlevel ${Oh[index]} $Bo $tmax &
     
     cd ../
 done
 
 wait
 
-#CC99='mpicc -std=c99' qcc -Wall -O2 -D_MPI=1 bubbleinSheets_01.c -o bubbleinSheets_01 -lm -disable-dimensions
-#CC99='mpicc -std=c99' qcc -Wall -O2 -D_MPI=1 asyBubbleinSheets_01.c -o asyBubbleinSheets_01 -lm -disable-dimensions
+#CC99='mpicc -std=c99' qcc -Wall -O2 -D_MPI=1 bubbleinSheet_01.c -o bubbleinSheet_01 -lm -disable-dimensions
+#CC99='mpicc -std=c99' qcc -Wall -O2 -D_MPI=1 asyBubbleinSheet_01.c -o asyBubbleinSheet_01 -lm -disable-dimensions
 #srun -n 96 asyBubbleinSheets_v1 $MAXlevel $Oh $offset $tmax

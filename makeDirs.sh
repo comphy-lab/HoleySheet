@@ -1,12 +1,11 @@
 #!/bin/bash
 
-start="1010"
-end="1016"
+start="1031"
+end="1039"
 
 for i in `seq $start $end`;
 do
 echo $i
 mkdir -p $i
-cp bubbleinSheets_01 VideoBubbleinSheet.py $i
-cp get* $i
+cp bubbleinSheets_03 $i
 done

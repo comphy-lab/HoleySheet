@@ -1,4 +1,4 @@
-// Bubbles inside a draining sheet. Initialize with eq. shape of three phase simulations
+// Bubbles inside a draining sheet. Initialize with eq. shape 
 // Id 1 is liquid pool, and Id 2 is Newtonian gas.
 
 #include "axi.h"
@@ -27,15 +27,18 @@ double Oh, Oha, Bo, tmax;
 char nameOut[80], dumpFile[80];
 
 // Boundary conditions
-u.n[right] = dirichlet(-2 * Bo * x);
-u.t[right] = dirichlet(Bo * y);
-p[right] = dirichlet(0.);
-pf[right] = dirichlet(0.);
+// u.n[right] = dirichlet(-2 * Bo * x);
+// u.t[right] = dirichlet(Bo * y);
+// p[right] = dirichlet(0.);
+// pf[right] = dirichlet(0.);
 
-u.n[top] = dirichlet(Bo * y);
-u.t[top] = dirichlet(-2 * Bo * x);
-p[top] = dirichlet(0.);
-pf[top] = dirichlet(0.);
+// u.n[top] = dirichlet(Bo * y);
+// u.t[top] = dirichlet(-2 * Bo * x);
+// p[top] = dirichlet(0.);
+// pf[top] = dirichlet(0.);
+
+u.n[right] = dirichlet(0.);
+u.t[top] = dirichlet(0.);
 
 int main(int argc, char const *argv[])
 {

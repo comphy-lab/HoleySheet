@@ -11,6 +11,7 @@ from functools import partial
 from pathlib import Path
 import argparse
 from matplotlib.ticker import StrMethodFormatter
+import random
 
 matplotlib.rcParams['font.family'] = 'serif'
 matplotlib.rcParams['text.usetex'] = True
@@ -200,10 +201,13 @@ def main():
     # Use all available CPU cores
     num_processes = 16 #mp.cpu_count()
     
+    nGFS_list = list(range(nGFS))
+    random.shuffle(nGFS_list)
+    
     # Create a pool of worker processes
     with mp.Pool(processes=num_processes) as pool:
         # Map the process_func to all timesteps
-        pool.map(process_func, range(nGFS))
+        pool.map(process_func, nGFS_list)
 
 if __name__ == "__main__":
     main()

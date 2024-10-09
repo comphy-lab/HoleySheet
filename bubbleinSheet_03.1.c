@@ -1,4 +1,4 @@
-// Bubbles inside a draining sheet. || Uses CLSVOF
+// Bubbles inside a draining sheet. || Uses CLSVOF || Reduced film thickness
 // Id 1 is liquid pool, and Id 2 is Newtonian gas.
 
 #include "axi.h"

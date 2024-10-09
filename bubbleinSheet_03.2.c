@@ -1,13 +1,17 @@
-// Bubbles inside a draining sheet.
+// Bubbles inside a draining sheet. || Uses CLSVOF || Reduced film thickness || Viscocapillary time scale based formulation
 // Id 1 is liquid pool, and Id 2 is Newtonian gas.
 
 #include "axi.h"
 #include "navier-stokes/centered.h"
 #define FILTERED // Smear density and viscosity jumps
-#include "two-phase.h"
 
-#include "navier-stokes/conserving.h"
-#include "tension.h"
+#include "two-phase-clsvof.h"
+#include "integral.h"
+scalar sigmaf[];
+#include "distance.h"
+// #include "two-phase.h"
+// #include "navier-stokes/conserving.h"
+// #include "tension.h"
 
 #define tsnap (1e-2) // 0.001 only for some cases.
 
@@ -66,7 +70,8 @@ int main(int argc, char const *argv[])
     Oha = 2e-2 * Oh;
     mu1 = Oh, mu2 = Oha;
 
-    f.sigma = 1.0;
+    // f.sigma = 1.0;
+    d.sigmaf = sigmaf;
 
     run();
 }
@@ -75,9 +80,12 @@ event init(t = 0)
 {
     if (!restore(file = dumpFile))
     {
-        fraction(f, difference(1.5625 - x * x, 1 - x * x - y * y));
+        // fraction(f, difference(1.5625 - x * x, 1 - x * x - y * y));
         foreach ()
         {
+            d[] = -(1 - x*x - y*y);
+            d[] = fabs(x) > 1.07 ? -d[] : d[];
+            sigmaf[] = 1.;
             u.x[] = -2 * Bo * x;
             u.y[] = Bo * y;
         }
@@ -88,10 +96,10 @@ event init(t = 0)
 
 event adapt(i++)
 {
-    scalar KAPPA[];
-    curvature(f, KAPPA);
-    adapt_wavelet((scalar *){f, u.x, u.y, KAPPA},
-                  (double[]){fErr, VelErr, VelErr, KErr}, MAXlevel, MAXlevel - 3);
+    // scalar KAPPA[];
+    // curvature(f, KAPPA);
+    adapt_wavelet((scalar *){f, u.x, u.y},
+                  (double[]){fErr, VelErr, VelErr}, MAXlevel, MAXlevel - 3);
 }
 
 // Dumping snapshots
@@ -136,11 +144,11 @@ event logWriting(i++)
     }
 
     assert(ke > -1e-10);
-    assert(ke < 1e2);
+    assert(ke < 1e3);
 
-    if ((ke > 1e2 || ke < 1e-6) && i > 1e1 && pid() == 0)
+    if ((ke > 1e3 || ke < 1e-6) && i > 1e1 && pid() == 0)
     {
-        const char *message = ke > 1e2 ? "The kinetic energy blew up. Stopping simulation\n"
+        const char *message = ke > 1e3 ? "The kinetic energy blew up. Stopping simulation\n"
                                        : "kinetic energy too small now! Stopping!\n";
         fprintf(ferr, "%s", message);
         fp = fopen("log", "a");

@@ -28,13 +28,13 @@
 #define SIGMA12 (1.0)
 
 // boundary conditions
-u.n[right] = dirichlet(-2*Bo*x);
-u.t[right] = dirichlet(Bo*y);
+u.n[right] = dirichlet(-2*pow(Bo,0.5)*x);
+u.t[right] = dirichlet(pow(Bo,0.5)*y);
 p[right] = dirichlet(0.);
 pf[right]= dirichlet(0);
 
-u.n[top] = dirichlet(Bo*y);
-u.t[top] = dirichlet(-2*Bo*x);
+u.n[top] = dirichlet(pow(Bo,0.5)*y);
+u.t[top] = dirichlet(-2*pow(Bo,0.5)*x);
 p[top] = dirichlet(0.);
 pf[top]= dirichlet(0);
 

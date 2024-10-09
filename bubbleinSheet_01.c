@@ -78,8 +78,8 @@ event init(t = 0)
         fraction(f, difference(1.5625 - x * x, 1 - x * x - y * y));
         foreach ()
         {
-            u.x[] = -2 * Bo * x;
-            u.y[] = Bo * y;
+            u.x[] = -2 * pow(Bo,0.5) * x;
+            u.y[] = pow(Bo,0.5) * y;
         }
         boundary({f, u});
     }

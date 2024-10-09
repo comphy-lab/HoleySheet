@@ -30,13 +30,13 @@ double Oh, Oha, Bo, tmax;
 char nameOut[80], dumpFile[80];
 
 // Boundary conditions
-u.n[right] = dirichlet(-2 * pow(Bo,0.5) * x);
-u.t[right] = dirichlet(pow(Bo,0.5) * y);
+u.n[right] = dirichlet(-2 * Oh * pow(Bo,0.5) * x);
+u.t[right] = dirichlet(Oh * pow(Bo,0.5) * y);
 p[right] = dirichlet(0.);
 pf[right] = dirichlet(0.);
 
-u.n[top] = dirichlet(pow(Bo,0.5) * y);
-u.t[top] = dirichlet(-2 * pow(Bo,0.5) * x);
+u.n[top] = dirichlet(Oh * pow(Bo,0.5) * y);
+u.t[top] = dirichlet(-2 * Oh * pow(Bo,0.5) * x);
 p[top] = dirichlet(0.);
 pf[top] = dirichlet(0.);
 
@@ -66,9 +66,8 @@ int main(int argc, char const *argv[])
     // Name of the restart file, used in writingFiles event.
     sprintf(dumpFile, "dump");
 
-    rho1 = 1., rho2 = 1e-3;
-    Oha = 2e-2 * Oh;
-    mu1 = Oh, mu2 = Oha;
+    rho1 = 1./(Oh*Oh), rho2 = 1e-3/(Oh*Oh);
+    mu1 = 1., mu2 = 2e-2;
 
     // f.sigma = 1.0;
     d.sigmaf = sigmaf;

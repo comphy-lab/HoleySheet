@@ -30,13 +30,13 @@ double Oh, Oha, Bo, tmax;
 char nameOut[80], dumpFile[80];
 
 // Boundary conditions
-u.n[right] = dirichlet(-2 * Bo * x);
-u.t[right] = dirichlet(Bo * y);
+u.n[right] = dirichlet(-2 * pow(Bo,0.5) * x);
+u.t[right] = dirichlet(pow(Bo,0.5) * y);
 p[right] = dirichlet(0.);
 pf[right] = dirichlet(0.);
 
-u.n[top] = dirichlet(Bo * y);
-u.t[top] = dirichlet(-2 * Bo * x);
+u.n[top] = dirichlet(pow(Bo,0.5) * y);
+u.t[top] = dirichlet(-2 * pow(Bo,0.5) * x);
 p[top] = dirichlet(0.);
 pf[top] = dirichlet(0.);
 
@@ -86,8 +86,8 @@ event init(t = 0)
             d[] = -(1 - x*x - y*y);
             d[] = fabs(x) > 1.25 ? -d[] : d[];
             sigmaf[] = 1.;
-            u.x[] = -2 * Bo * x;
-            u.y[] = Bo * y;
+            u.x[] = -2 * pow(Bo,0.5) * x;
+            u.y[] = pow(Bo,0.5) * y;
         }
         boundary({f, u});
     }

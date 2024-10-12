@@ -10,7 +10,7 @@
 #include "tension.h"
 #include "distance.h"
 
-#define tsnap (1e-2) // 0.001 only for some cases.
+#define tsnap (1e-1) // 0.001 only for some cases.
 
 // Error tolerancs
 #define fErr (1e-3)   // error tolerance in f1 VOF

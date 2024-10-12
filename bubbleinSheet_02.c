@@ -12,7 +12,7 @@
 #include "distance.h"
 // #include "adapt_wavelet_limited_v2.h"
 
-#define tsnap (1e-2) // 0.001 only for some cases. 
+#define tsnap (1e-1) // 0.001 only for some cases. 
 // Error tolerancs
 #define fErr (1e-3)                                 // error tolerance in f1 VOF
 #define KErr (1e-6)                                 // error tolerance in VoF curvature calculated using heigh function method (see adapt event)

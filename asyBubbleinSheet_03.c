@@ -1,15 +1,16 @@
-// Asymmetric Bubble inside a draining sheet.
+// Asymmetric Bubble inside a draining sheet. || Uses CLSVOF
 // Id 1 is liquid pool, and Id 2 is Newtonian gas.
 
 #include "axi.h"
 #include "navier-stokes/centered.h"
 #define FILTERED // Smear density and viscosity jumps
-#include "two-phase.h"
 
-#include "navier-stokes/conserving.h"
-#include "tension.h"
+#include "two-phase-clsvof.h"
+#include "integral.h"
+scalar sigmaf[];
+#include "distance.h"
 
-#define tsnap (1e-2) // 0.001 only for some cases.
+#define tsnap (1e-1) // 0.001 only for some cases.
 
 // Error tolerancs
 #define fErr (1e-3)   // error tolerance in f1 VOF
@@ -19,7 +20,7 @@
 #define Ldomain 8
 
 int MAXlevel;
-// Oh -> liquid Ohnesorge number
+// Oh -> Solvent Ohnesorge number
 // Oha -> air Ohnesorge number
 // Bo -> Bond number = rhoR^3w^2/gamma
 double Oh, Oha, Bo, offset, tmax;
@@ -75,7 +76,8 @@ int main(int argc, char const *argv[])
   Oha = 2e-2 * Oh;
   mu1 = Oh, mu2 = Oha;
 
-  f.sigma = 1.0;
+// f.sigma = 1.0;
+    d.sigmaf = sigmaf;
 
   run();
 }
@@ -84,9 +86,12 @@ event init(t = 0)
 {
   if (!restore(file = dumpFile))
   {
-    fraction(f, difference(2.25 - x * x, 1 - (x - offset) * (x - offset) - y * y));
+    // fraction(f, difference(2.25 - x * x, 1 - (x - offset) * (x - offset) - y * y));
     foreach ()
     {
+      d[] = -(1 - (x - offset) * (x - offset) - y * y);
+      d[] = fabs(x*x) > 2.25 ? -d[] : d[]; 
+      sigmaf[] = 1.;
       u.x[] = -2 * pow(Bo,0.5) * x;
       u.y[] = pow(Bo,0.5) * y;
     }
@@ -97,10 +102,10 @@ event init(t = 0)
 
 event adapt(i++)
 {
-  scalar KAPPA[];
-  curvature(f, KAPPA);
-  adapt_wavelet((scalar *){f, u.x, u.y, KAPPA},
-                (double[]){fErr, VelErr, VelErr, KErr}, MAXlevel, MAXlevel - 3);
+//   scalar KAPPA[];
+//   curvature(f, KAPPA);
+  adapt_wavelet((scalar *){f, u.x, u.y},
+                (double[]){fErr, VelErr, VelErr}, MAXlevel, MAXlevel - 3);
 }
 
 // Dumping snapshots
@@ -145,11 +150,11 @@ event logWriting(i++)
   }
 
   assert(ke > -1e-10);
-  assert(ke < 1e3);
+  assert(ke < 1e4);
 
-  if ((ke > 1e3 || ke < 1e-6) && i > 1e1 && pid() == 0)
+  if ((ke > 1e4 || ke < 1e-6) && i > 1e1 && pid() == 0)
   {
-    const char *message = ke > 1e3 ? "The kinetic energy blew up. Stopping simulation\n"
+    const char *message = ke > 1e4 ? "The kinetic energy blew up. Stopping simulation\n"
                                    : "kinetic energy too small now! Stopping!\n";
     fprintf(ferr, "%s", message);
     fp = fopen("log", "a");

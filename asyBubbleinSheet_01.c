@@ -26,18 +26,18 @@ double Oh, Oha, Bo, offset, tmax;
 char nameOut[80], dumpFile[80];
 
 // Boundary conditions
-u.n[left] = dirichlet(-2 * Bo * x);
-u.t[left] = dirichlet(Bo * y);
+u.n[left] = dirichlet(-2 * pow(Bo,0.5) * x);
+u.t[left] = dirichlet(pow(Bo,0.5) * y);
 p[left] = dirichlet(0.);
 pf[left] = dirichlet(0.);
 
-u.n[right] = dirichlet(-2 * Bo * x);
-u.t[right] = dirichlet(Bo * y);
+u.n[right] = dirichlet(-2 * pow(Bo,0.5) * x);
+u.t[right] = dirichlet(pow(Bo,0.5) * y);
 p[right] = dirichlet(0.);
 pf[right] = dirichlet(0.);
 
-u.n[top] = dirichlet(Bo * y);
-u.t[top] = dirichlet(-2 * Bo * x);
+u.n[top] = dirichlet(pow(Bo,0.5) * y);
+u.t[top] = dirichlet(-2 * pow(Bo,0.5) * x);
 p[top] = dirichlet(0.);
 pf[top] = dirichlet(0.);
 
@@ -87,8 +87,8 @@ event init(t = 0)
     fraction(f, difference(2.25 - x * x, 1 - (x - offset) * (x - offset) - y * y));
     foreach ()
     {
-      u.x[] = -2 * Bo * x;
-      u.y[] = Bo * y;
+      u.x[] = -2 * pow(Bo,0.5) * x;
+      u.y[] = pow(Bo,0.5) * y;
     }
     boundary({f, u});
   }
@@ -145,11 +145,11 @@ event logWriting(i++)
   }
 
   assert(ke > -1e-10);
-  assert(ke < 1e2);
+  assert(ke < 1e3);
 
-  if ((ke > 1e2 || ke < 1e-6) && i > 1e1 && pid() == 0)
+  if ((ke > 1e3 || ke < 1e-6) && i > 1e1 && pid() == 0)
   {
-    const char *message = ke > 1e2 ? "The kinetic energy blew up. Stopping simulation\n"
+    const char *message = ke > 1e3 ? "The kinetic energy blew up. Stopping simulation\n"
                                    : "kinetic energy too small now! Stopping!\n";
     fprintf(ferr, "%s", message);
     fp = fopen("log", "a");

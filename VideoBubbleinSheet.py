@@ -91,7 +91,7 @@ def gettingfield(filename, zmin, rmin, zmax, rmax, nr, Oh):
 
 def process_timestep(ti, folder, rmin, rmax, zmin, zmax, lw, asy, Oh, nr, Ldomain):    
     """Process a single timestep."""
-    t = 0.1*ti
+    t = 0.01*ti
     snapshot_file = Path(f"intermediate/snapshot-{t:.4f}")
     output_file = folder / f"{int(t * 1000):08d}.png"
 
@@ -135,36 +135,36 @@ def process_timestep(ti, folder, rmin, rmax, zmin, zmax, lw, asy, Oh, nr, Ldomai
     ax.set_xlim(-rmax, rmax)
     ax.set_ylim(zmin, zmax)
 
-    velmax, velmin = np.max(vel), np.min(vel) 
-    d2max, d2min = np.max(D2), np.min(D2) 
-    print(f"max D2 is {d2max} and min D2 is {d2min}")
-    print(f"max vel is {velmax} and min vel is {velmin}")
+    # velmax, velmin = np.max(vel), np.min(vel) 
+    # d2max, d2min = np.max(D2), np.min(D2) 
+    # print(f"max D2 is {d2max} and min D2 is {d2min}")
+    # print(f"max vel is {velmax} and min vel is {velmin}")
     
     
-    if asy:
-        cntrl1 = ax.imshow(vel, cmap="Blues", interpolation='Bilinear', origin='lower', extent=[rmin, -rmax, zmin, zmax], vmax=velmax, vmin=velmin)
-        cntrl2 = ax.imshow(D2, cmap="hot_r", interpolation='Bilinear', origin='lower', extent=[rmin, rmax, zmin, zmax], vmax=d2max, vmin=d2min)
+    # if asy:
+    #     cntrl1 = ax.imshow(vel, cmap="Blues", interpolation='Bilinear', origin='lower', extent=[rmin, -rmax, zmin, zmax], vmax=velmax, vmin=velmin)
+    #     cntrl2 = ax.imshow(D2, cmap="hot_r", interpolation='Bilinear', origin='lower', extent=[rmin, rmax, zmin, zmax], vmax=d2max, vmin=d2min)
     
-    else:   
-        rmin, rmax, zmin, zmax = 0, Ldomain, 0, Ldomain/2
-        cntrl1 = ax.imshow(vel, cmap="Blues", interpolation='Bilinear', origin='lower', extent=[rmin, -rmax, zmin, zmax], vmax=velmax, vmin=velmin)
-        cntrl2 = ax.imshow(D2, cmap="hot_r", interpolation='Bilinear', origin='lower', extent=[rmin, rmax, zmin, zmax], vmax=d2max, vmin=d2min)
-        cntrl1 = ax.imshow(vel, cmap="Blues", interpolation='Bilinear', origin='lower', extent=[rmin, -rmax, zmin, -zmax], vmax=velmax, vmin=velmin)
-        cntrl2 = ax.imshow(D2, cmap="hot_r", interpolation='Bilinear', origin='lower', extent=[rmin, rmax, zmin, -zmax], vmax=d2max, vmin=d2min)
+    # else:   
+    #     rmin, rmax, zmin, zmax = 0, Ldomain, 0, Ldomain/2
+        # cntrl1 = ax.imshow(vel, cmap="Blues", interpolation='Bilinear', origin='lower', extent=[rmin, -rmax, zmin, zmax], vmax=velmax, vmin=velmin)
+        # cntrl2 = ax.imshow(D2, cmap="hot_r", interpolation='Bilinear', origin='lower', extent=[rmin, rmax, zmin, zmax], vmax=d2max, vmin=d2min)
+        # cntrl1 = ax.imshow(vel, cmap="Blues", interpolation='Bilinear', origin='lower', extent=[rmin, -rmax, zmin, -zmax], vmax=velmax, vmin=velmin)
+        # cntrl2 = ax.imshow(D2, cmap="hot_r", interpolation='Bilinear', origin='lower', extent=[rmin, rmax, zmin, -zmax], vmax=d2max, vmin=d2min)
 
-    l, b, w, h = ax.get_position().bounds
-    cb1 = fig.add_axes([l+0.05*w, b-0.05, 0.40*w, 0.03])
-    c1 = plt.colorbar(cntrl1,cax=cb1,orientation='horizontal')
-    c1.set_label(r'$\|\mathbf{v}\|/\sqrt{\gamma/\rho R_0}$',fontsize=TickLabel, labelpad=-25)
-    c1.ax.tick_params(labelsize=TickLabel)
-    c1.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.3f}'))
-    c1.set_ticks([velmax, velmin])
-    cb2 = fig.add_axes([l+0.55*w, b-0.05, 0.40*w, 0.03])
-    c2 = plt.colorbar(cntrl2,cax=cb2,orientation='horizontal')
-    c2.ax.tick_params(labelsize=TickLabel)
-    c2.set_label(r"$\log_{10}\left(2 Oh \left( \boldsymbol{\mathcal {D} : \mathcal {D}} \right) \right)$",fontsize=TickLabel, labelpad=-25)
-    c2.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.1f}')) 
-    c2.set_ticks([d2max, d2min])
+    # l, b, w, h = ax.get_position().bounds
+    # cb1 = fig.add_axes([l+0.05*w, b-0.05, 0.40*w, 0.03])
+    # c1 = plt.colorbar(cntrl1,cax=cb1,orientation='horizontal')
+    # c1.set_label(r'$\|\mathbf{v}\|/\sqrt{\gamma/\rho R_0}$',fontsize=TickLabel, labelpad=-25)
+    # c1.ax.tick_params(labelsize=TickLabel)
+    # c1.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.3f}'))
+    # c1.set_ticks([velmax, velmin])
+    # cb2 = fig.add_axes([l+0.55*w, b-0.05, 0.40*w, 0.03])
+    # c2 = plt.colorbar(cntrl2,cax=cb2,orientation='horizontal')
+    # c2.ax.tick_params(labelsize=TickLabel)
+    # c2.set_label(r"$\log_{10}\left(2 Oh \left( \boldsymbol{\mathcal {D} : \mathcal {D}} \right) \right)$",fontsize=TickLabel, labelpad=-25)
+    # c2.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.1f}')) 
+    # c2.set_ticks([d2max, d2min])
     
     ax.axis('off')
     # plt.show()
@@ -199,7 +199,7 @@ def main():
     process_func = partial(process_timestep, folder=folder, rmin=rmin, rmax=rmax, zmin=zmin, zmax=zmax, lw=lw, asy=args.asy, Oh=args.Oh, nr=nr, Ldomain=Ldomain)
     
     # Use all available CPU cores
-    num_processes = 16 #mp.cpu_count()
+    num_processes = 5 #mp.cpu_count()
     
     nGFS_list = list(range(nGFS))
     random.shuffle(nGFS_list)

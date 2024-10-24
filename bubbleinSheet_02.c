@@ -73,7 +73,8 @@ int  main(int argc, char const *argv[]) {
 
 
   rho1 = 1., rho2 = 1e-3, rho3 = 1e-3;
-  Oha = 2e-2 * Oh;
+  // Oha = 2e-2 * Oh;
+  Oha = 2e-5;
   mu1 = Oh, mu2 = Oha, mu3 = Oha;
 
   // f.sigma = 1.0;
@@ -85,7 +86,7 @@ int  main(int argc, char const *argv[]) {
 
 event init (t = 0) {
  if (!restore (file = dumpFile)){
-    fraction(f1, 1.5625 - x*x);
+    fraction(f1, 1.2 - x*x);
     fraction(f2, 1 - x*x - y*y);
     foreach(){
       u.x[] = -2*pow(Bo,0.5)*x;

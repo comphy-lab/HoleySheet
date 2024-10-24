@@ -1,4 +1,4 @@
-// Bubbles inside a draining sheet. Initialize with eq. shape of three phase simulations
+// Bubbles inside a draining sheet || Initialize with eq. shape of three phase simulations
 // Id 1 is liquid pool, and Id 2 is Newtonian gas.
 
 #include "axi.h"
@@ -10,7 +10,7 @@
 #include "tension.h"
 #include "distance.h"
 
-#define tsnap (1e-2) // 0.001 only for some cases.
+#define tsnap (1e-1) // 0.001 only for some cases.
 
 // Error tolerancs
 #define fErr (1e-3)   // error tolerance in f1 VOF
@@ -27,13 +27,13 @@ double Oh, Oha, Bo, tmax;
 char nameOut[80], dumpFile[80];
 
 // Boundary conditions
-u.n[right] = dirichlet(-2 * Bo * x);
-u.t[right] = dirichlet(Bo * y);
+u.n[right] = dirichlet(-2 * pow(Bo,0.5) * x);
+u.t[right] = dirichlet(pow(Bo,0.5) * y);
 p[right] = dirichlet(0.);
 pf[right] = dirichlet(0.);
 
-u.n[top] = dirichlet(Bo * y);
-u.t[top] = dirichlet(-2 * Bo * x);
+u.n[top] = dirichlet(pow(Bo,0.5) * y);
+u.t[top] = dirichlet(-2 * pow(Bo,0.5) * x);
 p[top] = dirichlet(0.);
 pf[top] = dirichlet(0.);
 
@@ -64,7 +64,8 @@ int main(int argc, char const *argv[])
     sprintf(dumpFile, "dump");
 
     rho1 = 1., rho2 = 1e-3;
-    Oha = 2e-2 * Oh;
+    Oha = 2e-5;
+    // Oha = 2e-2 * Oh;
     mu1 = Oh, mu2 = Oha;
 
     f.sigma = 1.0;
@@ -77,7 +78,7 @@ event init(t = 0)
     if (!restore(file = dumpFile))
     {
         char filename[60];
-        sprintf(filename, "f3.txt");
+        sprintf(filename, "f.txt");
         FILE *fp = fopen(filename, "rb");
         if (fp == NULL)
         {

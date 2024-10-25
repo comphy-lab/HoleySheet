@@ -12,12 +12,11 @@
 #include "distance.h"
 // #include "adapt_wavelet_limited_v2.h"
 
-#define tsnap (1e-1) // 0.001 only for some cases. 
+#define tsnap (1e-1) // 0.001 only for some cases.
 // Error tolerancs
-#define fErr (1e-3)                                 // error tolerance in f1 VOF
-#define KErr (1e-6)                                 // error tolerance in VoF curvature calculated using heigh function method (see adapt event)
-#define VelErr (1e-3)                               // error tolerances in velocity -- Use 1e-2 for low Oh and 1e-3 to 5e-3 for high Oh/moderate to high J
-
+#define fErr (1e-3)   // error tolerance in f1 VOF
+#define KErr (1e-6)   // error tolerance in VoF curvature calculated using heigh function method (see adapt event)
+#define VelErr (1e-3) // error tolerances in velocity -- Use 1e-2 for low Oh and 1e-3 to 5e-3 for high Oh/moderate to high J
 
 // Numbers!
 #define Ldomain 4
@@ -26,30 +25,31 @@
 #define SIGMA13 (1.0)
 #define SIGMA12 (1.0)
 
-// boundary conditions
-u.n[right] = dirichlet(-2*pow(Bo,0.5)*x);
-u.t[right] = dirichlet(pow(Bo,0.5)*y);
-p[right] = dirichlet(0.);
-pf[right]= dirichlet(0);
-
-u.n[top] = dirichlet(pow(Bo,0.5)*y);
-u.t[top] = dirichlet(-2*pow(Bo,0.5)*x);
-p[top] = dirichlet(0.);
-pf[top]= dirichlet(0);
-
 int MAXlevel;
 // Oh -> Solvent Ohnesorge number
 // Oha -> air Ohnesorge number
-// De -> Deborah number
+// Bo -> Bond number = rhoR^3w^2/gamma
 
-double Oh, Oha, Bond, tmax;
+double Oh, Oha, Bo, tmax;
 char nameOut[80], dumpFile[80];
 
-int  main(int argc, char const *argv[]) {
-  dtmax = 1e-5; //  BEWARE of this for stability issues. 
+// boundary conditions
+u.n[right] = dirichlet(-2 * pow(Bo, 0.5) * x);
+u.t[right] = dirichlet(pow(Bo, 0.5) * y);
+p[right] = dirichlet(0.);
+pf[right] = dirichlet(0);
+
+u.n[top] = dirichlet(pow(Bo, 0.5) * y);
+u.t[top] = dirichlet(-2 * pow(Bo, 0.5) * x);
+p[top] = dirichlet(0.);
+pf[top] = dirichlet(0);
+
+int main(int argc, char const *argv[])
+{
+  dtmax = 1e-5; //  BEWARE of this for stability issues.
 
   L0 = Ldomain;
-  
+
   // Values taken from the terminal
   MAXlevel = atoi(argv[1]);
   Oh = atof(argv[2]);
@@ -57,19 +57,19 @@ int  main(int argc, char const *argv[]) {
   tmax = atof(argv[4]);
 
   // Ensure that all the variables were transferred properly from the terminal or job script.
-  if (argc < 4){
-    fprintf(ferr, "Lack of command line arguments. Check! Need %d more arguments\n", 4-argc);
+  if (argc < 4)
+  {
+    fprintf(ferr, "Lack of command line arguments. Check! Need %d more arguments\n", 4 - argc);
     return 1;
   }
-  fprintf(ferr, "Level %d, De Infty, Oh %2.1e, Bo %4.3f\n", MAXlevel, Oh, Bond);
-  init_grid (1 << 7);
+  fprintf(ferr, "Level %d, Oh %2.1e, Bo %4.3f\n", MAXlevel, Oh, Bo);
+  init_grid(1 << 7);
   // Create a folder named intermediate where all the simulation snapshots are stored.
   char comm[80];
-  sprintf (comm, "mkdir -p intermediate");
+  sprintf(comm, "mkdir -p intermediate");
   system(comm);
   // Name of the restart file. See writingFiles event.
-  sprintf (dumpFile, "dump");
-
+  sprintf(dumpFile, "dump");
 
   rho1 = 1., rho2 = 1e-3, rho3 = 1e-3;
   // Oha = 2e-2 * Oh;
@@ -83,87 +83,81 @@ int  main(int argc, char const *argv[]) {
   run();
 }
 
-event init (t = 0) {
- if (!restore (file = dumpFile)){
-    fraction(f1, 1.2 - x*x);
-    fraction(f2, 1 - x*x - y*y);
-    foreach(){
-      u.x[] = -2*pow(Bo,0.5)*x;
-      u.y[] = pow(Bo,0.5)*y;
+event init(t = 0)
+{
+  if (!restore(file = dumpFile))
+  {
+    fraction(f1, 1.2 - x * x);
+    fraction(f2, 1 - x * x - y * y);
+    foreach ()
+    {
+      u.x[] = -2 * pow(Bo, 0.5) * x;
+      u.y[] = pow(Bo, 0.5) * y;
     }
     // boundary ({f1,f2,u});
   }
   // return 1;
 }
 
-
-event adapt(i++){
+event adapt(i++)
+{
   scalar KAPPA1[], KAPPA2[];
   curvature(f1, KAPPA1);
   curvature(f2, KAPPA2);
-   adapt_wavelet ((scalar *){f1, f2, u.x, u.y, KAPPA1, KAPPA2},
-      (double[]){fErr, fErr, VelErr, VelErr, KErr, KErr},
-      MAXlevel, MAXlevel-6);
+  adapt_wavelet((scalar *){f1, f2, u.x, u.y, KAPPA1, KAPPA2},
+                (double[]){fErr, fErr, VelErr, VelErr, KErr, KErr},
+                MAXlevel, MAXlevel - 6);
 }
 
-
-event writingFiles (t = 0; t += tsnap; t <= tmax) {
-  dump (file = dumpFile);
-  sprintf (nameOut, "intermediate/snapshot-%5.4f", t);
-  dump(file=nameOut);
+event writingFiles(t = 0; t += tsnap; t <= tmax)
+{
+  dump(file = dumpFile);
+  sprintf(nameOut, "intermediate/snapshot-%5.4f", t);
+  dump(file = nameOut);
 }
 
-event end (t = end) {}
+event end(t = end) {}
 
-/**
-## Log writing
-*/
-event logWriting (i++) {
-
+// Log writing
+event logWriting(i++)
+{
   double ke = 0.;
-  foreach (reduction(+:ke)){
-    ke += (2*pi*y)*(0.5*rho(f1[], f2[])*(sq(u.x[]) + sq(u.y[])))*sq(Delta);
+  foreach (reduction(+ : ke))
+  {
+    ke += (2 * pi * y) * (0.5 * rho(f1[], f2[]) * (sq(u.x[]) + sq(u.y[]))) * sq(Delta);
   }
-  static FILE * fp;
-  if (pid() == 0) {
-    if (i == 0) {
-      fprintf (ferr, "Oh i dt t ke\n");
-      fp = fopen ("log", "w");
-      fprintf(fp, "Level %d, De Infty, Oh %2.1e, Oha %2.1e, Bo %4.3f\n", MAXlevel, Oh, Oha, Bond);
-      fprintf (fp, "i dt t ke\n");
-      fprintf (fp, "%d %g %g %g\n", i, dt, t, ke);
-      fclose(fp);
-    } else {
-      fp = fopen ("log", "a");
-      fprintf (fp, "%g %d %g %g %g\n", Oh, i, dt, t, ke);
-      fclose(fp);
+  static FILE *fp;
+  if (pid() == 0)
+  {
+    if (i == 0)
+    {
+      fprintf(ferr, "i dt t ke\n");
+      fp = fopen("log", "w");
+      fprintf(fp, "Level %d, Oh %2.1e, Bo %4.3f\n", MAXlevel, Oh, Bo);
+      fprintf(fp, "i dt t ke\n");
     }
-    fprintf (ferr, "%g %d %g %g %g\n", Oh, i, dt, t, ke);
+    else
+    {
+      fp = fopen("log", "a");
+      fprintf(fp, "%d %g %g %g\n", i, dt, t, ke);
+    }
+    fprintf(fp, "%d %g %g %g\n", i, dt, t, ke);
+    fclose(fp);
+    fprintf(ferr, "%d %g %g %g\n", i, dt, t, ke);
   }
 
   assert(ke > -1e-10);
-
-  if (ke > 1e2 && i > 1e1){
-    if (pid() == 0){
-      fprintf(ferr, "The kinetic energy blew up. Stopping simulation\n");
-      fp = fopen ("log", "a");
-      fprintf(fp, "The kinetic energy blew up. Stopping simulation\n");
-      fclose(fp);
-      dump(file=dumpFile);
-      return 1;
-    }  
-  }
   assert(ke < 1e2);
 
-  if (ke < 1e-6 && i > 1e1){
-    if (pid() == 0){
-      fprintf(ferr, "kinetic energy too small now! Stopping!\n");
-      dump(file=dumpFile);
-      fp = fopen ("log", "a");
-      fprintf(fp, "kinetic energy too small now! Stopping!\n");
-      fclose(fp);
-      return 1;
-    }
+  if ((ke > 1e2 || ke < 1e-6) && i > 1e1 && pid() == 0)
+  {
+    const char *message = ke > 1e2 ? "The kinetic energy blew up. Stopping simulation\n"
+                                   : "kinetic energy too small now! Stopping!\n";
+    fprintf(ferr, "%s", message);
+    fp = fopen("log", "a");
+    fprintf(fp, "%s", message);
+    fclose(fp);
+    dump(file = dumpFile);
+    return 1;
   }
-
 }

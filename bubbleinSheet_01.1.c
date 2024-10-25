@@ -67,7 +67,8 @@ int main(int argc, char const *argv[])
     sprintf(dumpFile, "dump");
 
     rho1 = 1., rho2 = 1e-3;
-    Oha = 2e-2 * Oh;
+    // Oha = 2e-2 * Oh;
+    Oha = 2e-5;
     mu1 = Oh, mu2 = Oha;
 
     f.sigma = 1.0;

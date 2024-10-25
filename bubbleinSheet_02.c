@@ -21,7 +21,6 @@
 
 // Numbers!
 #define Ldomain 4
-#define Bo 1e-1
 
 // Surface tensions
 #define SIGMA13 (1.0)
@@ -54,7 +53,7 @@ int  main(int argc, char const *argv[]) {
   // Values taken from the terminal
   MAXlevel = atoi(argv[1]);
   Oh = atof(argv[2]);
-  Bond = atof(argv[3]);
+  Bo = atof(argv[3]);
   tmax = atof(argv[4]);
 
   // Ensure that all the variables were transferred properly from the terminal or job script.
@@ -97,12 +96,6 @@ event init (t = 0) {
   // return 1;
 }
 
-/**
-## Adaptive Mesh Refinement
-*/
-// int refRegion(double x,double y, double z){
-//     return ((y<1e-1) ? MAXlevel: (y < 1e0)? MAXlevel-1: (y < 2e0)? MAXlevel-2: MAXlevel-3);
-// }
 
 event adapt(i++){
   scalar KAPPA1[], KAPPA2[];
@@ -111,28 +104,16 @@ event adapt(i++){
    adapt_wavelet ((scalar *){f1, f2, u.x, u.y, KAPPA1, KAPPA2},
       (double[]){fErr, fErr, VelErr, VelErr, KErr, KErr},
       MAXlevel, MAXlevel-6);
-
-//     adapt_wavelet_limited ((scalar *){f, u.x, u.y, KAPPA, conform_p.x.x, conform_p.y.y, conform_p.y.x, conform_qq},
-//   (double[]){fErr, VelErr, VelErr, KErr, AErr, AErr, AErr, AErr},
-//   refRegion, MAXlevel-6);
 }
 
-/**
-## Dumping snapshots
-*/
+
 event writingFiles (t = 0; t += tsnap; t <= tmax) {
   dump (file = dumpFile);
   sprintf (nameOut, "intermediate/snapshot-%5.4f", t);
   dump(file=nameOut);
 }
 
-/**
-## Ending Simulation
-*/
-// event end (t = end) {
-//    if (pid() == 0)
-//     fprintf(ferr, "Level %d, De Infty, Ec %2.1e, Oh %2.1e, Oha %2.1e, Bo %4.3f\n", MAXlevel, Ec, Oh, Oha, Bond);
-// }
+event end (t = end) {}
 
 /**
 ## Log writing

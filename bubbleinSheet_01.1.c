@@ -81,8 +81,7 @@ event init(t = 0)
     if (!restore(file = dumpFile))
     {
         char filename[60];
-        // sprintf(filename, "f3.txt");
-        sprintf(filename, "f_Testing.dat");
+        sprintf(filename, "f.txt");
         FILE *fp = fopen(filename, "rb");
         if (fp == NULL)
         {

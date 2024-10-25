@@ -128,7 +128,7 @@ if not os.path.isdir(folder):
     os.makedirs(folder)
 
 for ti in range(nGFS):
-    t = 1*ti
+    t = 0.1*ti
     place = "intermediate/snapshot-%5.4f" % t
     name = "%s/%8.8d.png" %(folder, int(t*1000))
 

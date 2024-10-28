@@ -110,6 +110,15 @@ def gettingfield(filename, zmin, zmax, rmax, nr, Ohs, Ohp, Oha):
     taup.resize((nz, nr))
 
     return R, Z, D2, vel, U, V, taup, nz
+
+def getting_ab(filename):
+    exe = ["./getab", filename]
+    p = sp.Popen(exe, stdout=sp.PIPE, stderr=sp.PIPE)
+    stdout, stderr = p.communicate()
+    temp1 = stderr.decode("utf-8")
+    temp2 = temp1.split("\n")
+    temp3 = temp2[0].split(" ")
+    return float(temp3[0]), float(temp3[1]), float(temp3[2]), float(temp3[3]), float(temp3[4])
 # ----------------------------------------------------------------------------------------------------------------------
 
 
@@ -144,11 +153,11 @@ for ti in range(nGFS):
                 print("Problem in the available file %s" % place)
             else:
 
-                R, Z, taus, vel, U, V, taup, nz = gettingfield(place, zmin, zmax, rmax, nr, Ohs, Ohp, Oha)
+                # R, Z, taus, vel, U, V, taup, nz = gettingfield(place, zmin, zmax, rmax, nr, Ohs, Ohp, Oha)
                 
-                zminp, zmaxp, rminp, rmaxp = Z.min(), Z.max(), R.min(), R.max()
+                # zminp, zmaxp, rminp, rmaxp = Z.min(), Z.max(), R.min(), R.max()
 
-                # print(zminp, zmaxp, rminp, rmaxp)
+                t, xmax, y_xmax, x_ymax, ymax = getting_ab(place)
 
                 # Part to plot
                 AxesLabel, TickLabel = [50, 35]
@@ -171,6 +180,9 @@ for ti in range(nGFS):
                 #plt.scatter(segs[0], segs[1])
                 #print("The line collection array: ",segs)
 
+                # Plotting the points
+                ax.plot(xmax, y_xmax, 'ro', markersize=10)
+                ax.plot(x_ymax, ymax, 'bo', markersize=10)
                 ## Copied Lines
                 ax.set_aspect('equal')
                 ax.set_xlim(rmin, rmax)

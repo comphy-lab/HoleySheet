@@ -1,4 +1,4 @@
-// Bubbles inside a draining sheet. Initialize with eq. shape 
+// Bubbles inside a draining sheet. Initialize with eq. shape || Initialize Bo effect
 // Id 1 is liquid pool, and Id 2 is Newtonian gas.
 
 #include "axi.h"
@@ -107,8 +107,14 @@ event init(t = 0)
 
         // We can now initialize the volume fraction of the domain.
         fractions(phi, f);
+        foreach ()
+        {
+            u.x[] = -2 * pow(Bo,0.5) * x;
+            u.y[] = pow(Bo,0.5) * y;
+        }
     }
     // return 1;
+
 }
 
 event adapt(i++)

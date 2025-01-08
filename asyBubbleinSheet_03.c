@@ -73,7 +73,7 @@ int main(int argc, char const *argv[])
   sprintf(dumpFile, "dump");
 
   rho1 = 1., rho2 = 1e-3;
-  Oha = 2e-2 * Oh;
+  Oha = 2e-5;
   mu1 = Oh, mu2 = Oha;
 
 // f.sigma = 1.0;
@@ -90,7 +90,7 @@ event init(t = 0)
     foreach ()
     {
       d[] = -(1 - (x - offset) * (x - offset) - y * y);
-      d[] = fabs(x*x) > 2.25 ? -d[] : d[]; 
+      d[] = fabs(x) > 1.2 ? -d[] : d[]; 
       sigmaf[] = 1.;
       u.x[] = -2 * pow(Bo,0.5) * x;
       u.y[] = pow(Bo,0.5) * y;

@@ -17,7 +17,7 @@ scalar sigmaf[];
 #define KErr (1e-6)   // error tolerance in VoF curvature calculated using height function method (see adapt event)
 #define VelErr (1e-3) // error tolerances in velocity -- Use 1e-2 for low Oh and 1e-3 to 5e-3 for high Oh/moderate to high J
 
-#define Ldomain 8
+#define Ldomain 4
 
 int MAXlevel;
 // Oh -> Solvent Ohnesorge number

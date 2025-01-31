@@ -85,7 +85,8 @@ event init(t = 0)
         foreach ()
         {
             // d[] = -(1 - x*x - y*y);
-            d[] = fabs(x) > 1.25 ? -d[] : d[];
+            // d[] = fabs(x) > 1.25 ? -d[] : d[];
+            d[] = (1 - x);
             sigmaf[] = 1.;
             u.x[] = -2 * pow(Bo,0.5) * x;
             u.y[] = pow(Bo,0.5) * y;

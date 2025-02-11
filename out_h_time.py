@@ -11,7 +11,7 @@ def getting_h(filename):
     temp1 = stderr.decode("utf-8")
     temp2 = temp1.split("\n")
     temp3 = temp2[0].split(" ")
-    return float(temp3[0]), float(temp3[1]), float(temp3[2]), float(temp3[3]), float(temp3[4])
+    return float(temp3[0]), float(temp3[1]), float(temp3[2])
 # ----------------------------------------------------------------------------------------------------------------------
 
 

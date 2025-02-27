@@ -72,7 +72,7 @@ event init(t = 0)
 {
     if (!restore(file = dumpFile))
     {
-        fraction(f, y < rh + 1 ? 1 - x * x - (y - rh - 1) * (y - rh - 1) : 1 - x );
+        fraction(f, y < 2*rh + 1 ? 1 - x * x - (y - 2*rh - 1) * (y - 2*rh - 1) : 1 - x );
         foreach ()
         {
             u.x[] = -2 * pow(Bo,0.5) * x;

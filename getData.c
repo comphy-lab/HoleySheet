@@ -40,8 +40,8 @@ int main(int a, char const *arguments[])
         double D33 = (u.x[1, 0] - u.x[-1, 0]) / (2 * Delta);
         double D13 = 0.5 * ((u.y[1, 0] - u.y[-1, 0] + u.x[0, 1] - u.x[0, -1]) / (2 * Delta));
         double D2 = (sq(D11) + sq(D22) + sq(D33) + 2.0 * sq(D13));
-        D2c[] = 2 * (clamp(f[], 0., 1.) * (Oh - 2e-2 * Oh) + 2e-2 * Oh) * D2;
-
+        // D2c[] = 2 * (clamp(f[], 0., 1.) * (Oh - 2e-2 * Oh) + 2e-2 * Oh) * D2;
+        D2c[] = 2 * clamp(f[], 0., 1.) * D2;
         D2c[] = (D2c[] > 0.) ? log(D2c[]) / log(10) : -10;
         vel[] = sqrt(sq(u.x[]) + sq(u.y[]));
     }

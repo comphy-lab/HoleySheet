@@ -1,0 +1,2 @@
+export BASILISK=/Users/vatsal/Library/CloudStorage/Dropbox/1-Areas/WorkInProgress/Holey-Sheets/HoleySheet/basilisk/src
+export PATH=$PATH:$BASILISK

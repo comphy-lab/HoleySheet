@@ -1,36 +1,32 @@
-# c run file
-asyBubbleinSheet_01
-bubbleinSheet_01
-bubbleinSheet_02
-bubbleinSheet_03
-getFacet
-getData
-intermediate/
-dump
-Video/
-log
-README.md
-bubbleinSheet_01.1
-bubbleinSheet_03.1
-bubbleinSheet_03.2
-asyBubbleinSheet_03
-getFacet1
-getFacet2
-getab
+# basililsk specific files
+**/*.DS_Store
+**/intermediate*
+**/log*.dat
+**/restart*
+**/*.tags*
+**/*.deps
+**/*.tests
+**/*.s.d
+**/Video
+**/*.mp4
+**/*.json
+**/*.bv
 
-# Prerequisites
-*.d
+# Custom executables (add your specific executable names here)
+**/intermediate
+**/restore
+**/dump
+
+# never exclude these files
+!*.c
+!*.h
+!*.sbatch
 
 # Object files
 *.o
 *.ko
 *.obj
 *.elf
-
-# Linker output
-*.ilk
-*.map
-*.exp
 
 # Precompiled Headers
 *.gch
@@ -70,3 +66,26 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# IDE/Editor folders
+.vscode/
+.idea/
+*.swp
+*~
+
+# Build directories
+build/
+bin/
+obj/
+
+# Dependency directories
+deps/
+
+# OS generated files
+**/*.DS_Store
+**/.DS_Store?
+**/._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

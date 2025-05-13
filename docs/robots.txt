@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://holeysheet.comphy-lab.org/sitemap.xml
+Sitemap: https://comphy-lab.org/sitemap.xml

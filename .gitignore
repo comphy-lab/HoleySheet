@@ -9,7 +9,6 @@
 **/*.s.d
 **/Video
 **/*.mp4
-**/*.json
 **/*.bv
 
 # Custom executables (add your specific executable names here)

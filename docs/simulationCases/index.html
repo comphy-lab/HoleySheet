@@ -167,7 +167,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="base-url" content="..">
-  <title>Documentation | Documentation</title>
+  <title>Simulation Cases | Documentation</title>
   
   <!-- Critical CSS for fastest paint -->
   <style>
@@ -198,25 +198,25 @@
   </style>
 
   <!-- Critical Meta Tags -->
-  <meta name="description" content="Computational fluid dynamics simulations using Basilisk C framework.">
+  <meta name="description" content="Documentation for the CoMPhy-Lab computational fluid dynamics framework.">
   <meta name="author" content="CoMPhy Lab">
   <meta name="robots" content="index, follow">
-  <meta name="keywords" content="fluid dynamics, CFD, Basilisk, multiphase flow, computational physics">
+  <meta name="keywords" content="fluid dynamics, CFD, Basilisk, simulationCases, documentation">
   <meta name="msapplication-TileColor" content="#da532c">
   <meta name="theme-color" content="#ffffff">
   <meta name="apple-mobile-web-app-title" content="CoMPhy Lab">
 
   <!-- Preload critical resources -->
-  <link rel="preload" href="./assets/js/main.js" as="script">
-  <link rel="preload" href="./assets/css/fontello/css/fontello.css" as="style">
-  <link rel="preload" href="./assets/css/academicons-1.7.0/css/academicons.min.css" as="style">
+  <link rel="preload" href="../assets/js/main.js" as="script">
+  <link rel="preload" href="../assets/css/fontello/css/fontello.css" as="style">
+  <link rel="preload" href="../assets/css/academicons-1.7.0/css/academicons.min.css" as="style">
 
   <!-- Base stylesheets -->
-  <link rel="stylesheet" href="./assets/css/styles.css">
-  <link rel="stylesheet" href="./assets/css/custom_styles.css">
-  <link rel="stylesheet" href="./assets/css/command-palette.css">
-  <link rel="stylesheet" href="./assets/css/fontello/css/fontello.css">
-  <link rel="stylesheet" href="./assets/css/academicons-1.7.0/css/academicons.min.css">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="../assets/css/custom_styles.css">
+  <link rel="stylesheet" href="../assets/css/command-palette.css">
+  <link rel="stylesheet" href="../assets/css/fontello/css/fontello.css">
+  <link rel="stylesheet" href="../assets/css/academicons-1.7.0/css/academicons.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
 
   <!-- Font optimization -->
@@ -229,24 +229,24 @@
   </style>
 
   <!-- Favicon -->
-  <link rel="apple-touch-icon" sizes="180x180" href="./assets/favicon/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="96x96" href="./assets/favicon/favicon-96x96.png">
-  <link rel="icon" type="image/svg+xml" href="./assets/favicon/favicon.svg">
-  <link rel="shortcut icon" href="./assets/favicon/favicon.ico">
-  <link rel="manifest" href="./assets/favicon/site.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="../assets/favicon/favicon-96x96.png">
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon/favicon.svg">
+  <link rel="shortcut icon" href="../assets/favicon/favicon.ico">
+  <link rel="manifest" href="../assets/favicon/site.webmanifest">
 
   <!-- Scripts with proper loading attributes -->
-  <script src="./assets/js/jquery.min.js"></script>
-  <script src="./assets/js/jquery-ui.packed.js"></script>
-  <script src="./assets/js/plots.js"></script>
+  <script src="../assets/js/jquery.min.js"></script>
+  <script src="../assets/js/jquery-ui.packed.js"></script>
+  <script src="../assets/js/plots.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js"></script>
   <!-- Config script must load before other scripts -->
-  <script src="./assets/js/config.js"></script>
-  <script defer src="./assets/js/search-helper.js"></script>
-  <script defer src="./assets/js/command-palette.js"></script>
-  <script defer src="./assets/js/command-data.js"></script>
-  <script defer src="./assets/js/main.js"></script>
-  <script defer src="./assets/js/theme-toggle.js"></script>
+  <script src="../assets/js/config.js"></script>
+  <script defer src="../assets/js/search-helper.js"></script>
+  <script defer src="../assets/js/command-palette.js"></script>
+  <script defer src="../assets/js/command-data.js"></script>
+  <script defer src="../assets/js/main.js"></script>
+  <script defer src="../assets/js/theme-toggle.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script"></script>
   
   <!-- Optimize page load performance -->
@@ -291,7 +291,7 @@
         link.href = href;
         link.crossOrigin = 'anonymous';
         link.onerror = (e) => {
-          console.error(`Failed to load stylesheet: `, e);
+          console.error(`Failed to load stylesheet: ${href}`, e);
           console.log('Trying alternative Font Awesome source...');
         };
         document.head.appendChild(link);
@@ -332,8 +332,6 @@
   </script>
 </head>
 <body id="top">
-<script>window.repoName = "HoleySheet";</script>
-
 
     <!-- Preloader with theme variables applied -->
     <div id="preloader">
@@ -350,7 +348,7 @@
         <header class="s-header">
             <div class="s-header__logo">
                 <a class="logo" href="/">
-                    <img src="./assets/logos/CoMPhy-Lab-no-name.png" alt="CoMPhy Lab">
+                    <img src="../assets/logos/CoMPhy-Lab-no-name.png" alt="CoMPhy Lab">
                 </a>
                 <a class="documentation-button" href="/HoleySheet">
                     <i class="fa-solid fa-book-open"></i>
@@ -409,115 +407,101 @@
         <!-- Main content -->
         <main class="content">
             
+
             <div class="page-content">
-                
-                                
-                                
-                
-                <h2 id="work-in-progress">Work in progress</h2>
-                <p>Together with Stéphane Zaleski, Chunheng Zhao, and
-                Detlef Lohse</p>
-                <h3 id="for-postprocessing">For postprocessing:</h3>
-                <p>Run the command as follows
-                <code>sh   python3 VideoBubbleinSheet.py --asy --Oh 0.01</code></p>
-                <h2 id="generated-documentation">Generated
-                Documentation</h2>
-                <h3 id="root-directory">Root Directory</h3>
-                <ul>
-                <li><a
-                href="reset_install_requirements.sh.html">reset_install_requirements.sh</a></li>
-                </ul>
-                <h3 id="postprocess">postProcess</h3>
-                <ul>
-                <li><a
-                href="postProcess/VideoBubbleinSheet.py.html">postProcess/VideoBubbleinSheet.py</a></li>
-                <li><a
-                href="postProcess/VideoBubbleinSheet_02.1_tp.py.html">postProcess/VideoBubbleinSheet_02.1_tp.py</a></li>
-                <li><a
-                href="postProcess/VideoBubbleinSheet_02_tp.py.html">postProcess/VideoBubbleinSheet_02_tp.py</a></li>
-                <li><a
-                href="postProcess/VideoBubbleinSheet_03.py.html">postProcess/VideoBubbleinSheet_03.py</a></li>
-                <li><a
-                href="postProcess/VideoBubbleinSheet_03_all.py.html">postProcess/VideoBubbleinSheet_03_all.py</a></li>
-                <li><a
-                href="postProcess/VideoBubbleinSheet_04.py.html">postProcess/VideoBubbleinSheet_04.py</a></li>
-                <li><a
-                href="postProcess/getData.c.html">postProcess/getData.c</a></li>
-                <li><a
-                href="postProcess/getData_02.c.html">postProcess/getData_02.c</a></li>
-                <li><a
-                href="postProcess/getFacet.c.html">postProcess/getFacet.c</a></li>
-                <li><a
-                href="postProcess/getFacet1.c.html">postProcess/getFacet1.c</a></li>
-                <li><a
-                href="postProcess/getFacet2.c.html">postProcess/getFacet2.c</a></li>
-                <li><a
-                href="postProcess/getFacet_02.c.html">postProcess/getFacet_02.c</a></li>
-                <li><a
-                href="postProcess/getab.c.html">postProcess/getab.c</a></li>
-                <li><a
-                href="postProcess/geth.c.html">postProcess/geth.c</a></li>
-                <li><a
-                href="postProcess/out_ab_time.py.html">postProcess/out_ab_time.py</a></li>
-                <li><a
-                href="postProcess/out_h_time.py.html">postProcess/out_h_time.py</a></li>
-                <li><a
-                href="postProcess/out_theta_time_01.py.html">postProcess/out_theta_time_01.py</a></li>
-                <li><a
-                href="postProcess/runpostProcess.sh.html">postProcess/runpostProcess.sh</a></li>
-                </ul>
-                <h3 id="simulationcases">simulationCases</h3>
-                <ul>
-                <li><a
-                href="simulationCases/asyBubbleinSheet_01.c.html">simulationCases/asyBubbleinSheet_01.c</a></li>
-                <li><a
-                href="simulationCases/asyBubbleinSheet_03.c.html">simulationCases/asyBubbleinSheet_03.c</a></li>
-                <li><a
-                href="simulationCases/bubbleinSheet_01.1.c.html">simulationCases/bubbleinSheet_01.1.c</a></li>
-                <li><a
-                href="simulationCases/bubbleinSheet_01.c.html">simulationCases/bubbleinSheet_01.c</a></li>
-                <li><a
-                href="simulationCases/bubbleinSheet_02.c.html">simulationCases/bubbleinSheet_02.c</a></li>
-                <li><a
-                href="simulationCases/bubbleinSheet_03.1.c.html">simulationCases/bubbleinSheet_03.1.c</a></li>
-                <li><a
-                href="simulationCases/bubbleinSheet_03.2.c.html">simulationCases/bubbleinSheet_03.2.c</a></li>
-                <li><a
-                href="simulationCases/bubbleinSheet_03.3.c.html">simulationCases/bubbleinSheet_03.3.c</a></li>
-                <li><a
-                href="simulationCases/bubbleinSheet_03.c.html">simulationCases/bubbleinSheet_03.c</a></li>
-                <li><a
-                href="simulationCases/bubbleinSheet_04.c.html">simulationCases/bubbleinSheet_04.c</a></li>
-                <li><a
-                href="simulationCases/bubbleinSheet_05.c.html">simulationCases/bubbleinSheet_05.c</a></li>
-                <li><a
-                href="simulationCases/makeDirs.sh.html">simulationCases/makeDirs.sh</a></li>
-                <li><a
-                href="simulationCases/outEqshape_01.ipynb.html">simulationCases/outEqshape_01.ipynb</a></li>
-                <li><a
-                href="simulationCases/runCodes_snellius_singleNode.sh.html">simulationCases/runCodes_snellius_singleNode.sh</a></li>
-                </ul>
-                <h3 id="src-local">src-local</h3>
-                <ul>
-                <li><a
-                href="src-local/three-phase.h.html">src-local/three-phase.h</a></li>
-                </ul>
-            </div>
+<h1>Simulation Cases</h1>
+
+<div class="documentation-section">
+<table class="documentation-files">
+<tr>
+  <td class="file-icon"><span class="file-c"></span></td>
+  <td class="file-link" style="padding-right: 2em;"><a href="asyBubbleinSheet_01.c.html" class="doc-link-button">asyBubbleinSheet_01.c</a></td>
+  <td class="file-desc">int MAXlevel; // Oh -> liquid Ohnesorge number // Oha -> air Ohnesorge number // Bo -> Bond number = rhoR^3w^2/gamma ...</td>
+</tr>
+<tr>
+  <td class="file-icon"><span class="file-c"></span></td>
+  <td class="file-link" style="padding-right: 2em;"><a href="asyBubbleinSheet_03.c.html" class="doc-link-button">asyBubbleinSheet_03.c</a></td>
+  <td class="file-desc">scalar sigmaf[];</td>
+</tr>
+<tr>
+  <td class="file-icon"><span class="file-c"></span></td>
+  <td class="file-link" style="padding-right: 2em;"><a href="bubbleinSheet_01.1.c.html" class="doc-link-button">bubbleinSheet_01.1.c</a></td>
+  <td class="file-desc">int MAXlevel; // Oh -> Solvent Ohnesorge number // Oha -> air Ohnesorge number // Bo -> Bond number = rhoR^3w^2/gamma...</td>
+</tr>
+<tr>
+  <td class="file-icon"><span class="file-c"></span></td>
+  <td class="file-link" style="padding-right: 2em;"><a href="bubbleinSheet_01.c.html" class="doc-link-button">bubbleinSheet_01.c</a></td>
+  <td class="file-desc">int MAXlevel; // Oh -> Solvent Ohnesorge number // Oha -> air Ohnesorge number // Bo -> Bond number = rhoR^3w^2/gamma...</td>
+</tr>
+<tr>
+  <td class="file-icon"><span class="file-c"></span></td>
+  <td class="file-link" style="padding-right: 2em;"><a href="bubbleinSheet_02.c.html" class="doc-link-button">bubbleinSheet_02.c</a></td>
+  <td class="file-desc">int MAXlevel; // Oh -> Solvent Ohnesorge number // Oha -> air Ohnesorge number // Bo -> Bond number = rhoR^3w^2/gamma...</td>
+</tr>
+<tr>
+  <td class="file-icon"><span class="file-c"></span></td>
+  <td class="file-link" style="padding-right: 2em;"><a href="bubbleinSheet_03.1.c.html" class="doc-link-button">bubbleinSheet_03.1.c</a></td>
+  <td class="file-desc">scalar sigmaf[];</td>
+</tr>
+<tr>
+  <td class="file-icon"><span class="file-c"></span></td>
+  <td class="file-link" style="padding-right: 2em;"><a href="bubbleinSheet_03.2.c.html" class="doc-link-button">bubbleinSheet_03.2.c</a></td>
+  <td class="file-desc">scalar sigmaf[];</td>
+</tr>
+<tr>
+  <td class="file-icon"><span class="file-c"></span></td>
+  <td class="file-link" style="padding-right: 2em;"><a href="bubbleinSheet_03.3.c.html" class="doc-link-button">bubbleinSheet_03.3.c</a></td>
+  <td class="file-desc">scalar sigmaf[];</td>
+</tr>
+<tr>
+  <td class="file-icon"><span class="file-c"></span></td>
+  <td class="file-link" style="padding-right: 2em;"><a href="bubbleinSheet_03.c.html" class="doc-link-button">bubbleinSheet_03.c</a></td>
+  <td class="file-desc">scalar sigmaf[];</td>
+</tr>
+<tr>
+  <td class="file-icon"><span class="file-c"></span></td>
+  <td class="file-link" style="padding-right: 2em;"><a href="bubbleinSheet_04.c.html" class="doc-link-button">bubbleinSheet_04.c</a></td>
+  <td class="file-desc">scalar sigmaf[];</td>
+</tr>
+<tr>
+  <td class="file-icon"><span class="file-c"></span></td>
+  <td class="file-link" style="padding-right: 2em;"><a href="bubbleinSheet_05.c.html" class="doc-link-button">bubbleinSheet_05.c</a></td>
+  <td class="file-desc">int MAXlevel; // Oh -> Solvent Ohnesorge number // Oha -> air Ohnesorge number // Bo -> Bond number = rhoR^3w^2/gamma...</td>
+</tr>
+<tr>
+  <td class="file-icon"><span class="file-other"></span></td>
+  <td class="file-link" style="padding-right: 2em;"><a href="makeDirs.sh.html" class="doc-link-button">makeDirs.sh</a></td>
+  <td class="file-desc">start='1031' end='1039' for i in seq \$start \$end; do echo \$i mkdir -p \$i cp bubbleinSheets03 \$i done</td>
+</tr>
+<tr>
+  <td class="file-icon"><span class="file-jupyter"></span></td>
+  <td class="file-link" style="padding-right: 2em;"><a href="outEqshape_01.ipynb.html" class="doc-link-button">outEqshape_01.ipynb</a></td>
+  <td class="file-desc">This notebook provides visualization and analysis related to outEqshape 01.</td>
+</tr>
+<tr>
+  <td class="file-icon"><span class="file-other"></span></td>
+  <td class="file-link" style="padding-right: 2em;"><a href="runCodes_snellius_singleNode.sh.html" class="doc-link-button">runCodes_snellius_singleNode.sh</a></td>
+  <td class="file-desc">source ~/.bashshell MAXlevel='9' Oh=('1.00E-03' '3.00E-03' '6.00E-03' '1.00E-02' '3.00E-02' '6.00E-02' '1.00E-01') Bo...</td>
+</tr>
+</table>
+</div>
+
+</div>
         </main>
 
         <footer class="site-footer">
             <div class="footer-left">
               <a href="http://basilisk.fr/sandbox/vatsal/" target="_blank">
-                <img src="./assets/logos/logoBasilisk_TransparentBackground.png" alt="Basilisk C" class="footer-logo">
+                <img src="../assets/logos/logoBasilisk_TransparentBackground.png" alt="Basilisk C" class="footer-logo">
               </a>
               <a href="https://pof.tnw.utwente.nl/" target="_blank">
-                <img src="./assets/logos/LogoPof_transparent_white.png" alt="Physics of Fluids" class="footer-logo pof-logo">
+                <img src="../assets/logos/LogoPof_transparent_white.png" alt="Physics of Fluids" class="footer-logo pof-logo">
               </a>
               <a href="https://www.utwente.nl/" target="_blank">
-                <img src="./assets/logos/UT_Logo_2400_Sta_White_EN.png" alt="University of Twente" class="footer-logo">
+                <img src="../assets/logos/UT_Logo_2400_Sta_White_EN.png" alt="University of Twente" class="footer-logo">
               </a>
               <a href="https://www.vatsalsanjay.com/" target="_blank">
-                <img src="./assets/logos/Logo_Vatsal_v3_OutLine.png" alt="Vatsal Sanjay" class="footer-logo">
+                <img src="../assets/logos/Logo_Vatsal_v3_OutLine.png" alt="Vatsal Sanjay" class="footer-logo">
               </a>
             </div>
             <div class="footer-center">
@@ -563,75 +547,5 @@
         </div>
     </div>
 
-
-<script type="text/javascript">
-document.addEventListener('DOMContentLoaded', function() {
-    // Add copy button to each code block container
-    const codeBlocks = document.querySelectorAll('.code-block-container pre');
-    codeBlocks.forEach(function(codeBlock, index) {
-        // Create button element
-        const button = document.createElement('button');
-        button.className = 'copy-button';
-        button.textContent = 'Copy';
-        button.setAttribute('aria-label', 'Copy code to clipboard');
-        button.setAttribute('data-copy-state', 'copy');
-        
-        // Get the code block container (parent of the pre)
-        const container = codeBlock.parentNode;
-        
-        // Add the button to the container
-        container.appendChild(button);
-        
-        // Set up click event
-        button.addEventListener('click', async function() {
-            const codeText = codeBlock.textContent;
-            
-            try {
-                // Try to use the modern clipboard API first
-                if (navigator.clipboard && navigator.clipboard.writeText) {
-                    await navigator.clipboard.writeText(codeText);
-                    updateButtonState(button, 'success');
-                } else {
-                    // Fall back to the deprecated execCommand method
-                    const textarea = document.createElement('textarea');
-                    textarea.value = codeText;
-                    textarea.style.position = 'fixed';  // Prevent scrolling to the bottom
-                    document.body.appendChild(textarea);
-                    textarea.select();
-                    
-                    const successful = document.execCommand('copy');
-                    document.body.removeChild(textarea);
-                    
-                    if (successful) {
-                        updateButtonState(button, 'success');
-                    } else {
-                        updateButtonState(button, 'error');
-                    }
-                }
-            } catch (err) {
-                console.error('Copy failed:', err);
-                updateButtonState(button, 'error');
-            }
-        });
-    });
-    
-    // Function to update button state
-    function updateButtonState(button, state) {
-        if (state === 'success') {
-            button.textContent = 'Copied!';
-            button.classList.add('copied');
-        } else if (state === 'error') {
-            button.textContent = 'Error!';
-            button.classList.add('error');
-        }
-        
-        // Reset button state after 2 seconds
-        setTimeout(function() {
-            button.textContent = 'Copy';
-            button.classList.remove('copied', 'error');
-        }, 2000);
-    }
-});
-</script>
-        </body>
+</body>
 </html>
